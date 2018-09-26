@@ -31,6 +31,12 @@ class NeuralNetwork():
     def __sigmoid_derivative(self, x):
         return x * (1 - x)
 
+    def __step_function(self, x):
+        out = 0
+        if(x[0] >= 0.5):
+            out = 1
+        return out
+    
     # actually training the network, would update the weight inside the layers
     '''
     input: three things, training inputs array, training output array, the e_poch: one int that shows how many times the set would be trained
