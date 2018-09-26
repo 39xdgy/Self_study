@@ -31,6 +31,11 @@ class NeuralNetwork():
     def __sigmoid_derivative(self, x):
         return x * (1 - x)
 
+    # step function that would round to 0 or 1 from a flag which is 0.5
+    '''
+    input: one float
+    output: one integer
+    '''
     def __step_function(self, x):
         out = 0
         if(x[0] >= 0.5):
