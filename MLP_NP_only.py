@@ -45,7 +45,7 @@ class NeuralNetwork():
     def train(self, training_set_inputs, training_set_outputs, e_poch):
         for i in range(e_poch):
             
-            output_from_layer1, output_from_layer2 = self.think(training_set_inputs)
+            output_from_layer1, output_from_layer2, integer_out = self.think(training_set_inputs)
 
             layer2_error = training_set_outputs - output_from_layer2
             layer2_delta = layer2_error * self.__sigmoid_derivative(output_from_layer2)
@@ -68,7 +68,8 @@ class NeuralNetwork():
     def think(self, inputs):
         output_from_layer1 = self.__sigmoid(np.dot(inputs, self.layer1.weight))
         output_from_layer2 = self.__sigmoid(np.dot(output_from_layer1, self.layer2.weight))
-        return output_from_layer1, output_from_layer2
+        integer_out = self.__step_function(output_from_layer2)
+        return output_from_layer1, output_from_layer2, integer_out
 
     # print function that would print out the weight
     '''
@@ -111,8 +112,8 @@ if __name__ == "__main__":
 
     # think, and print the test case which is 1, 1, 0 and the output of it
     print("Test to see if the model are good enough by inputing [1, 1, 0]")
-    hidden_state, output = network.think(np.array([1, 1, 0]))
-    print(output)
+    hidden_state, org_out, integer_out = network.think(np.array([1, 1, 0]))
+    print(integer_out)
 
     # infinit loop for testing, free input and to check if the output is correct or not. 
     while(1 == 1):
@@ -124,5 +125,5 @@ if __name__ == "__main__":
         if(a == b and b == c and c == 6):
             break
 
-        hidden_state, output = network.think(np.array([a, b, c]))
-        print(output)
+        hidden_state, org_out, final_out = network.think(np.array([a, b, c]))
+        print(final_out)
