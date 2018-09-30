@@ -37,8 +37,8 @@ np.random.seed(7)
 
 # create the model of the network
 model = Sequential()
-model.add(Dense(100, input_shape = (28, 28), activation = 'sigmoid'))
-model.add(Dense(100, activation = 'sigmoid'))
+model.add(Dense(80, input_shape = (28, 28), activation = 'sigmoid'))
+model.add(Dense(80, activation = 'sigmoid'))
 model.add(Flatten())
 model.add(Dense(10, activation = 'softmax'))
 
@@ -47,7 +47,7 @@ adam = optimizers.adam(lr = 0.01)
 model.compile(loss = 'binary_crossentropy', optimizer = adam, metrics = ['accuracy'])
 
 # train the network
-model.fit(x_train, real_y_train, epochs = 3
+model.fit(x_train, real_y_train, epochs = 1)
 
 # checking the output by evaluate the testing set. 
 score = model.evaluate(x_test, real_y_test)
