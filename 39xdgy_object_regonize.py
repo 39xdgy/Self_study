@@ -8,7 +8,8 @@ import os
 
 
 
-path = "../../../Data_set_cnn/"
+#path = "../../../Data_set_cnn/"
+path = "../../Desktop/Data_set_cnn/"
 # all image would have a input size of 4608, 4608, 3
 M = 150
 N = 150
@@ -106,7 +107,8 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size = pool_size))
 
 model.add(Flatten())
-model.add(Dense(64, activation = 'relu'))
+model.add(Dense(128, activation = 'relu'))
+model.add(Dense(128, activation = 'relu'))
 model.add(Dropout(0.5))
 model.add(Dense(3, activation = 'sigmoid'))
 
@@ -114,4 +116,6 @@ model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accu
 
 
 model.fit(training_input, training_output, epochs = 5)
+
+model.save('object_regonize.h5')
 
