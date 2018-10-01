@@ -8,8 +8,8 @@ import os
 
 
 
-#path = "../../../Data_set_cnn/"
-path = "../../Desktop/Data_set_cnn/"
+path = "../../../Data_set_cnn/"
+#path = "../../Desktop/Data_set_cnn/"
 # all image would have a input size of 4608, 4608, 3
 M = 150
 N = 150
@@ -95,27 +95,27 @@ pool_size = (2, 2)
 
 
 model.add(Conv2D(filters_1, kernal_size, input_shape = input_shape))
-model.add(Activation('relu'))
+model.add(Activation('softmax'))
 model.add(MaxPooling2D(pool_size = pool_size))
 
 model.add(Conv2D(filters_2, kernal_size))
-model.add(Activation('relu'))
+model.add(Activation('softmax'))
 model.add(MaxPooling2D(pool_size = pool_size))
 
 model.add(Conv2D(filters_3, kernal_size))
-model.add(Activation('relu'))
+model.add(Activation('softmax'))
 model.add(MaxPooling2D(pool_size = pool_size))
 
 model.add(Flatten())
-model.add(Dense(128, activation = 'relu'))
-model.add(Dense(128, activation = 'relu'))
+model.add(Dense(64, activation = 'softmax'))
+model.add(Dense(64, activation = 'softmax'))
 model.add(Dropout(0.5))
-model.add(Dense(3, activation = 'sigmoid'))
+model.add(Dense(3, activation = 'softmax'))
 
 model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 
 
-model.fit(training_input, training_output, epochs = 5)
+model.fit(training_input, training_output, epochs = 20)
 
 model.save('object_regonize.h5')
 
