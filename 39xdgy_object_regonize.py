@@ -11,8 +11,8 @@ import os
 
 
 
-#path_lab = "../../../Data_set_cnn/"
-path_own_comp = "../../Desktop/dog_cat/train/"
+path_lab = "../../../dog_cat/train/"
+#path_own_comp = "../../Desktop/dog_cat/train/"
 # all image would have a input size of 4608, 4608, 3
 M = 150
 N = 150
@@ -30,21 +30,21 @@ print("Start inputing data")
 counter = 0
 x_num = 0
 y_num = 0
-for i in os.listdir(path_own_comp):
+for i in os.listdir(path_lab):
     #print(i)
     if(i.endswith('.jpg')):
-        if(x_num + y_num == 10000):
+        if(x_num + y_num == 5000):
             break
-        image = load_img(path_own_comp + i, target_size = (150, 150))
+        image = load_img(path_lab + i, target_size = (150, 150))
         array_image = img_to_array(image)
         #print(array_image.shape)
         if(i.startswith('dog')):
-            if(not x_num == 5000):
+            if(not x_num == 2500):
                 training_input.append(array_image)
                 training_output.append([1, 0])
                 x_num += 1
         if(i.startswith('cat')):
-            if(not y_num == 5000):
+            if(not y_num == 2500):
                 training_input.append(array_image)
                 training_output.append([0, 1])
                 y_num += 1
@@ -166,7 +166,8 @@ model.fit(training_input, training_output, epochs = 20)
 
 model.save('object_regonize.h5')
 
-test_path = "../../Desktop/dog_cat/test1/"
+test_path_own = "../../Desktop/dog_cat/test1/"
+test_path_lab = "../../../dog_cat/test1/"
 
 while(1 == 1):
     x = int(input("Please input a number between 1 - 12500, quit by input -1"))
