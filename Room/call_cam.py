@@ -1,8 +1,5 @@
 import cv2
 import numpy as np
-#from sklearn.neural_network import MLPClassifier
-#from sklearn.externals import joblib
-#import face_recognition as face
 from PIL import Image, ImageChops
 import os
 global rval, frame
@@ -14,7 +11,6 @@ import itchat
     
 cv2.namedWindow("preview")
 vc = cv2.VideoCapture(1)
-#clf = joblib.load("gender_MLP_model.pkl")
 
 if vc.isOpened():
     rval, frame = vc.read()
@@ -52,7 +48,6 @@ while rval:
         #send_move_danger()
         has_diff = True
         cv2.imwrite("breaker.jpg", now_frame)
-        #itchat.send_image("breaker.jpg", toUserName = 'filehelper')
     if(count_same > 100 and count_diff >= 10):
         #send_move_save()
         os.remove("breaker.jpg")
