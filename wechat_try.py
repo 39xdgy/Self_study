@@ -11,10 +11,10 @@ def send_move():
 
 @itchat.msg_register(itchat.content.TEXT)
 def print_content(msg):
-    print(msg['User']['NickName'] + '说: ' + msg['Text'])
+    print(msg['User']['NickName'] + 'said: ' + msg['Text'])
 
 if __name__ == '__main__':
     itchat.auto_login(hotReload = True)
-    #send_move()
-    itchat.run()
+    send_move()
+    #itchat.run()
     

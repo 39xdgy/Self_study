@@ -21,7 +21,7 @@ def send_move_save():
 itchat.auto_login(hotReload = True)
     
 cv2.namedWindow("preview")
-vc = cv2.VideoCapture(0)
+vc = cv2.VideoCapture(1)
 #clf = joblib.load("gender_MLP_model.pkl")
 
 if vc.isOpened():
@@ -49,6 +49,8 @@ while rval:
     if(out == 0):
         print("Same")
         count_same += 1
+        if (count_diff < 10):
+            count_diff = 0
     else:
         print("Different")
         count_diff += 1
@@ -57,9 +59,12 @@ while rval:
     if(count_diff >= 10 and (not has_diff)):
         send_move_danger()
         has_diff = True
+        cv2.imwrite("breaker.jpg", now_frame)
+        itchat.send_image("breaker.jpg", toUserName = 'filehelper')
     if(count_same > 100 and count_diff >= 10):
         send_move_save()
         count_diff = 0
+        has_diff = False
     
     frame = now_frame
 
