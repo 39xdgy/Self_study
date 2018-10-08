@@ -1,11 +1,11 @@
 import itchat
 import datetime, os, platform, time
-from call_cam import rval
-def send_move():
-    users = itchat.search_friends(name = 'Boss')
+import cv2
+def send_move(friends_name, text):
+    users = itchat.search_friends(name = friends_name)
     print(users)
-    #userName = users[0]['UserName']
-    itchat.send("test", toUserName = 'filehelper')
+    userName = users[0]['UserName']
+    itchat.send(text, toUserName = userName)
     print('Success')
 
 def send_move_danger():
@@ -23,13 +23,14 @@ def print_content(msg):
 
 itchat.auto_login(hotReload = True)
 is_break_in = False
-    
-while(rval):
-    if(os.path.isfile("breaker.jpg")):
+key = cv2.waitKey(20)
+while(not (key == 27)):
+    if(os.path.isfile("./breaker.jpg") and (not is_break_in)):
         is_break_in = True
         send_move_danger()
-    if((not os.path.isfile("breaker.jpg")) and is_break_in):
-        send_move_safe()
+        itchat.send_image("breaker.jpg", toUserName = 'filehelper')
+    if((not os.path.isfile("./breaker.jpg")) and is_break_in):
+        send_move_save()
         is_break_in = False
         
     #itchat.run()

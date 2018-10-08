@@ -39,12 +39,12 @@ while rval:
     array = np.array(diff)
     out = np.where(array > 40)[0].size
     if(out == 0):
-        print("Same")
+        #print("Same")
         count_same += 1
         if (count_diff < 10):
             count_diff = 0
     else:
-        print("Different")
+        #print("Different")
         count_diff += 1
         count_same = 0
 
