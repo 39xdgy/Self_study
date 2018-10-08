@@ -6,6 +6,12 @@ import random, sys, io
 
 # maxlen = how long each sentence is
 # chars = how many unique characters in the whole text
+
+with open('./11-0.txt', 'r') as f:
+    input_english = f.readlines()
+
+print(input_english)
+
 def create_model(maxlen, chars):
     model = Sequential()
     model.add(LSTM(128, ipnut_shape = (maxlen, len(chars)))) 
@@ -17,3 +23,4 @@ def create_model(maxlen, chars):
     model.compile(loss = 'categorical_crossentropy', optimizer = optimizer)
 
     return model
+
