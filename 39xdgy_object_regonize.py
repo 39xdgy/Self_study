@@ -120,7 +120,7 @@ if __name__ == "__main__":
     
 
 
-    path_lab = "../../../dog_cat/train/"
+    path_lab = "../../../dog_cat/train/input/"
     path_own_comp = "../../Desktop/dog_cat/train/"
     test_path_own = "../../Desktop/dog_cat/test1/"
     test_path_lab = "../../../dog_cat/test1/"
@@ -133,11 +133,9 @@ if __name__ == "__main__":
 
     model = model_create()
 
-    x_train = dataset_create(path_own_comp, M, N)
+    x_train = dataset_create(path_lab, M, N)
 
-    model.fit_generator(
-        x_train,
-        epochs = 20)
+    model.fit_generator(x_train, steps_per_epoch = len(x_train), epochs = 20)
 
 
 
@@ -149,6 +147,6 @@ if __name__ == "__main__":
             break
         else:
             x = str(x) + ".jpg"
-            image = load_img(test_path_own + x, target_size = (150, 150))
+            image = load_img(test_path_lab + x, target_size = (150, 150))
             array_image = img_to_array(image)
             print(model.predict(arr_image))

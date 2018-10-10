@@ -38,14 +38,15 @@ def read_input(input_path):
 
 def create_model(seq_length, n_vocab):
     model = Sequential()
-    model.add(LSTM(256, input_shape = (seq_length, 1)))
-    model.add(Dropout(0.2))
-    model.add(Dense(n_vocab))
-    model.add(Activation('softmax'))
+    model.add(LSTM(128, input_shape = (seq_length, 1), return_sequences = False))
+    #model.add(Dropout(0.2))
+#    model.add(LSTM(256))
+    #model.add(Dropout(0.2))
+    model.add(Dense(n_vocab, activation = 'softmax'))
 
-    optimizer = Adam(lr = 0.01)
+    optimizer = RMSprop(lr = 0.01)
 
-    model.compile(loss = 'categorical_crossentropy', optimizer = optimizer)
+    model.compile(loss = 'binary_crossentropy', optimizer = optimizer, metrics = ['accuracy'])
 
     return model
 
@@ -75,5 +76,28 @@ y = np_utils.to_categorical(dataY)
 print(len(X))
 model = create_model(seq_length, n_vocab)
 
-model.fit(X, y, epochs = 20, batch_size = 120)
+filepath = "weights-improvement-{epoch:02d}-{loss:.4f}.hdf5"
+checkpoint = ModelCheckpoint(filepath, monitor = 'loss', verbose = 1, save_best_only = True, mode = 'min')
+callbacks_list = [checkpoint]
 
+
+model.fit(X, y, epochs = 10, batch_size = 512, callbacks = callbacks_list)
+
+int_to_char = dict((i, c) for i, c in enumerate(chars))
+
+start = np.random.randint(0, len(dataX) - 1)
+pattern = dataX[start]
+print ("Seed:")
+print ("\"", ''.join([int_to_char[value] for value in pattern]), "\"")
+
+for i in range(1000):
+    x = np.reshape(pattern, (1, len(pattern), 1))
+    x = x/float(n_vocab)
+    prediction = model.predict(x, verbose = 0)
+    index = np.argmax(prediction)
+    result = int_to_char[index]
+    seq_in = [int_to_char[value] for value in pattern]
+    sys.stdout.write(result)
+    pattern.append(index)
+    pattern = pattern[1:len(pattern)]
+print("\nDone. ")
