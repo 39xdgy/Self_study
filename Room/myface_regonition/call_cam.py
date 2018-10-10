@@ -1,14 +1,10 @@
 import cv2
-from sklearn.neural_network import MLPClassifier
-from sklearn.externals import joblib
-import face_recognition as face
 import os
 global frame
 
 
 cv2.namedWindow("preview")
-vc = cv2.VideoCapture(0)
-clf = joblib.load("gender_MLP_model.pkl")
+vc = cv2.VideoCapture(1)
 
 if vc.isOpened():
     rval, frame = vc.read()

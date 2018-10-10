@@ -10,11 +10,16 @@ def send_move(friends_name, text):
     print('Success')
 
 def send_move_danger():
-    itchat.send("Someone is in the room!", toUserName = 'filehelper')
+    users = itchat.search_friends(name = 'Boss')
+    userName = users[0]['UserName']
+    itchat.send("Someone is in the room!", toUserName = userName)
+    itchat.send_image("breaker.jpg", toUserName = userName)
     print('Success')
 
 def send_move_save():
-    itchat.send("He left, we are safe!", toUserName = 'filehelper')
+    users = itchat.search_friends(name = 'Boss')
+    userName = users[0]['UserName']
+    itchat.send("He left, we are safe!", toUserName = userName)
     print('Success')
     
 @itchat.msg_register(itchat.content.TEXT)
@@ -32,7 +37,7 @@ try:
     while(True):
         if(os.path.isfile("./breaker.jpg") and (not is_break_in)):
             send_move_danger()
-            itchat.send_image("breaker.jpg", toUserName = 'filehelper')
+           
             is_break_in = True
         
         
