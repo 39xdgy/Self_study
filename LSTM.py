@@ -103,7 +103,7 @@ def on_epoch_end(epoch, _):
             for t, char in enumerate(sentence):
                 x_pred[0, t, char_indices[char]] = 1
             preds = model.predict(x_pred, diversity)
-            next_index = sample(preds, diversity)
+            next_index = sample(x_pred, diversity)
             next_char = char_to_int[next_index]
 
             generated += next_char
@@ -121,25 +121,50 @@ raw_text, chars, char_to_int, n_chars, n_vocab = read_input("./11-0.txt")
 seq_length = 100
 dataX, dataY = [], []
 
+
 for i in range(0, n_chars - seq_length, 1):
     seq_in = raw_text[i:i + seq_length]
     seq_out = raw_text[i + seq_length]
     dataX.append([char_to_int[char] for char in seq_in])
     dataY.append(char_to_int[seq_out])
 n_patterns = len(dataX)
+print(len(dataX[0]))
 
+
+
+for i in range(0, n_patterns):
+    for j in range(0, seq_length):
+        test = np.zeros(n_vocab)
+        test[dataX[i][j]] = 1
+        dataX[i][j] = test
+#print(dataX[0])
+
+
+
+'''
+#print(n_patterns)
+#print(dataX[0][101])
 #print(dataX)
+X = np.zeros((seq_length, n_vocab))
 
-X = np.reshape(dataX, (n_patterns, seq_length, 1))
-X = X / float(n_vocab)
-y = np_utils.to_categorical(dataY)
-print(len(X))
+
+for i in range(0, seq_length):
+    for j in range(0, n_vocab):
+        binary_list = np.zeros(n_vocab)
+        print(dataX[seq_length][n_vocab])
+        #binary_list[dataX[seq_length][n_vocab]] = 1
+        dataX[seq_length][n_vocab] = binary_list
+        
+
+print(binary_list[0][0])
+'''
 model = create_model(seq_length, n_vocab)
 
 filepath = "weights-improvement-{epoch:02d}-{loss:.4f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor = 'loss', verbose = 1, save_best_only = True, mode = 'min')
 callbacks_list = [checkpoint]
 
+#print(X[0])
 
 model.fit(X, y, epochs = 10, batch_size = 1024, callbacks = [LambdaCallback(on_epoch_end = on_epoch_end), checkpoint])
 

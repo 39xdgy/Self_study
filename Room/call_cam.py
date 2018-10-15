@@ -6,7 +6,7 @@ global rval, frame
 import itchat
 
 cv2.namedWindow("preview")
-vc = cv2.VideoCapture(1)
+vc = cv2.VideoCapture(0)
 
 if vc.isOpened():
     rval, frame = vc.read()

@@ -8,6 +8,8 @@ from PIL import Image
 import os
 
 
+
+
 clf = joblib.load("my_face.pkl")
 file_path = Path("/")
 
@@ -22,7 +24,8 @@ while True:
     encode = face.face_encodings(img)
     if(len(encode) != 0):
         for i in range(0, len(encode)):
-            print(clf.predict(encode))
+            out = clf.predict(encode)
+            #print(clf.predict(encode))
 
     else:
         print("No one is there!!")
